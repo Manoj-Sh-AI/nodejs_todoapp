@@ -16,15 +16,15 @@ export const login = async (req, res, next) => {
     if (!isMatch)
       return next(new ErrorHandler("Invalid Email or Password", 400));
 
-    sendCookie(user, res, `Welcome Back, ${user.name}`, 200);
+    sendCookie(user, res, `Welcome Back, ${user.identification}`, 200);
   } catch (error) {
     next(error);
   }
 };
 
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { identification, email, password, branch } = req.body;
 
     let user = await User.findOne({ email });
 
@@ -32,7 +32,7 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    user = await User.create({ name, email, password: hashedPassword });
+    user = await User.create({ identification, email, password: hashedPassword, branch });
 
     sendCookie(user, res, "Regestered Successfully", 201);
   } catch (error) {

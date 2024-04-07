@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
 const schema = new mongoose.Schema({
-    name: {
+    identification: {
         type: String,
+        unique: true,
         required: true,
     },
     email: {
@@ -14,6 +15,10 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
         select: false,
+    },
+    branch: {
+        type: String,
+        required: true,
     },
     createdAt: {
         type: Date,
